@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/NastyaKurova/simpleBackend.git"
+    "url": "git+https://github.com/NastyaKurova/backendCardLayouts.git"
   },
   "author": "Nastya Kurova <kyrova.nastia@gmail.com>",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/NastyaKurova/simpleBackend/issues"
+    "url": "https://github.com/NastyaKurova/backendCardLayouts/issues"
   },
-  "homepage": "https://github.com/NastyaKurova/simpleBackend#readme",
+  "homepage": "https://github.com/NastyaKurova/backendCardLayouts#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "config": "^3.3.0",
