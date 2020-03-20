@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const router = Router();
 const config = require('config');
+const auth = require('../middleware/auth.middleware');
 
 
 router.post(
@@ -38,7 +39,7 @@ router.post(
 router.post(
   '/login',
   [
-    check('email', 'Некоректный email').normalizeEmail().isEmail(),
+    check('email', 'Некоректный email').isEmail(),
     check('password', 'Минимальная длина пароль 6 символов').isLength({min: 6}),
   ],
   async (req, res) => {
@@ -57,8 +58,19 @@ router.post(
       }
       const isMatch = await bcrypt.compare(password, user.password);
       if (!isMatch) return res.status(400).json({message: 'Неверный пароль'});
-      const token = jwt.sign({userId: user.id}, config.get('jwtSecret'),{expiresIn: '1h'});
-      res.json({token,userId:user.id})
+      const token = jwt.sign({userId: user.id}, config.get('jwtSecret'), {expiresIn: '1h'});
+      res.json({token, userId: user.id, email})
+    } catch (e) {
+      res.status(500).json({message: 'Что-то пошло не так, попробуйте снова'});
+    }
+  });
+
+router.get('/user',auth, async (req, res) => {
+    try {
+      const user = await User.findOne({_id:req.user.userId});
+      console.log(user);
+      res.json(user.email);
+      console.log(user);
     } catch (e) {
       res.status(500).json({message: 'Что-то пошло не так, попробуйте снова'});
     }
