@@ -2,16 +2,15 @@ const jwt = require('jsonwebtoken');
 const config = require('config');
 
 module.exports = (req, res, next) => {
-  console.log(req.user);
   if (req.method === 'OPTIONS') return next();
   try {
-const token = req.headers.authorization.split(' ')[1];
-console.log(req.headers.authorization);
-if(!token) return res.status(401).json({message:'Нет авторизации'});
-const decoded = jwt.verify(token,config.get('jwtSecret'));
-req.user = decoded;
-next();
+    const token = req.headers.authorization.split(' ')[1];
+    if (!token) return res.status(401).json({message: 'Нет авторизации'});
+    const decoded = jwt.verify(token, config.get('jwtSecret'));
+    req.user = decoded;
+    // if (!~role.indexOf(decoded.role)) return res.status(401).json({message: 'Нет прав доступа'});
+    next();
   } catch (e) {
-    res.status(401).json({message:'Нет авторизации'});
+    res.status(401).json({message: 'Нет авторизации'});
   }
 };
